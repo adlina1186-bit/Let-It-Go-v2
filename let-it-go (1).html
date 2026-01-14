@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Let It Go</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sky-light: #E8F4F8;
+            --sky-mid: #B8D4E0;
+            --sky-deep: #87B5C8;
+            --text-dark: #2C3E50;
+            --balloon-red: #27AE60;
+            --balloon-shadow: rgba(39, 174, 96, 0.3);
+            --release-gold: #F39C12;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: linear-gradient(to bottom, var(--sky-light) 0%, var(--sky-mid) 50%, var(--sky-deep) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating clouds background */
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 100px;
+            opacity: 0;
+            animation: cloudFloat 20s infinite ease-in-out;
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 100px;
+        }
+
+        .cloud-1 {
+            width: 120px;
+            height: 40px;
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .cloud-1::before {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            left: 15px;
+        }
+
+        .cloud-1::after {
+            width: 60px;
+            height: 40px;
+            top: -20px;
+            right: 20px;
+        }
+
+        .cloud-2 {
+            width: 140px;
+            height: 45px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 7s;
+        }
+
+        .cloud-2::before {
+            width: 60px;
+            height: 60px;
+            top: -30px;
+            left: 20px;
+        }
+
+        .cloud-2::after {
+            width: 70px;
+            height: 45px;
+            top: -25px;
+            right: 25px;
+        }
+
+        .cloud-3 {
+            width: 100px;
+            height: 35px;
+            top: 35%;
+            right: 25%;
+            animation-delay: 14s;
+        }
+
+        .cloud-3::before {
+            width: 45px;
+            height: 45px;
+            top: -22px;
+            left: 12px;
+        }
+
+        .cloud-3::after {
+            width: 55px;
+            height: 35px;
+            top: -18px;
+            right: 15px;
+        }
+
+        @keyframes cloudFloat {
+            0%, 100% {
+                transform: translateX(0) translateY(0);
+                opacity: 0;
+            }
+            10%, 90% {
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(30px) translateY(-20px);
+            }
+        }
+
+        .container {
+            text-align: center;
+            max-width: 500px;
+            padding: 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 2.5rem;
+            opacity: 0.8;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .input-container {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1.2rem;
+            font-family: 'Crimson Pro', serif;
+            font-size: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-dark);
+            resize: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--balloon-red);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.2);
+            transform: translateY(-2px);
+        }
+
+        textarea::placeholder {
+            color: rgba(44, 62, 80, 0.5);
+            font-style: italic;
+        }
+
+        .balloon-container {
+            position: relative;
+            height: 280px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+        }
+
+        .balloon {
+            position: relative;
+            width: 120px;
+            height: 150px;
+            background: var(--balloon-red);
+            border-radius: 80% 80% 80% 80% / 100% 100% 80% 80%;
+            box-shadow: 
+                inset -15px -15px 20px rgba(0, 0, 0, 0.1),
+                0 20px 40px var(--balloon-shadow);
+            transition: transform 0.3s ease;
+            animation: balloonFloat 3s ease-in-out infinite;
+        }
+
+        .balloon::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            top: 25px;
+            left: 25px;
+        }
+
+        .balloon-string {
+            position: absolute;
+            bottom: -120px;
+            left: 50%;
+            width: 2px;
+            height: 120px;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+            transform-origin: top center;
+            animation: stringWave 2s ease-in-out infinite;
+        }
+
+        @keyframes balloonFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(-2deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(2deg);
+            }
+        }
+
+        @keyframes stringWave {
+            0%, 100% {
+                transform: translateX(-50%) rotate(0deg);
+            }
+            25% {
+                transform: translateX(-50%) rotate(3deg);
+            }
+            75% {
+                transform: translateX(-50%) rotate(-3deg);
+            }
+        }
+
+        .release-btn {
+            padding: 1rem 3rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, var(--release-gold) 0%, #E67E22 100%);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(243, 156, 18, 0.4);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .release-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .release-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(243, 156, 18, 0.5);
+        }
+
+        .release-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .release-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .release-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Balloon release animation */
+        .balloon-releasing {
+            animation: balloonRelease 3s ease-in forwards;
+        }
+
+        .string-releasing {
+            animation: stringRelease 3s ease-in forwards;
+        }
+
+        @keyframes balloonRelease {
+            0% {
+                transform: translateY(0) rotate(-2deg) scale(1);
+                opacity: 1;
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1200px) rotate(15deg) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        @keyframes stringRelease {
+            0% {
+                transform: translateX(-50%) rotate(0deg);
+                opacity: 1;
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-50%) rotate(25deg);
+                opacity: 0;
+            }
+        }
+
+        /* Confetti */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            opacity: 0;
+        }
+
+        .confetti-falling {
+            animation: confettiFall 3s ease-out forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Success message */
+        .success-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem 4rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            z-index: 2000;
+            text-align: center;
+            opacity: 0;
+        }
+
+        .success-message.show {
+            animation: messageAppear 0.5s ease-out 2.5s forwards;
+        }
+
+        @keyframes messageAppear {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-message h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .success-message p {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .reset-btn {
+            padding: 0.8rem 2rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            background: var(--balloon-red);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.3);
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+
+    <div class="container">
+        <h1>Let It Go</h1>
+        <p class="subtitle">One thing I am ready to let go of from 2025 is…</p>
+
+        <div class="input-container">
+            <textarea 
+                id="reflectionInput" 
+                rows="4" 
+                placeholder="What would you like to release today? Write your thoughts here..."
+            ></textarea>
+        </div>
+
+        <div class="balloon-container">
+            <div class="balloon" id="balloon">
+                <div class="balloon-string" id="balloonString"></div>
+            </div>
+        </div>
+
+        <button class="release-btn" id="releaseBtn">
+            Release Balloon
+        </button>
+    </div>
+
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <div class="success-message" id="successMessage">
+        <h2>Released ✨</h2>
+        <p>Your thoughts have been set free</p>
+        <button class="reset-btn" id="resetBtn">Let Go Again</button>
+    </div>
+
+    <script>
+        const reflectionInput = document.getElementById('reflectionInput');
+        const releaseBtn = document.getElementById('releaseBtn');
+        const balloon = document.getElementById('balloon');
+        const balloonString = document.getElementById('balloonString');
+        const confettiContainer = document.getElementById('confettiContainer');
+        const successMessage = document.getElementById('successMessage');
+        const resetBtn = document.getElementById('resetBtn');
+
+        releaseBtn.addEventListener('click', releaseBalloon);
+        resetBtn.addEventListener('click', resetApp);
+
+        function releaseBalloon() {
+            console.log('Release button clicked!');
+            
+            // Optional: Show gentle reminder if empty, but still allow release
+            if (!reflectionInput.value.trim()) {
+                console.log('No text entered, but releasing anyway');
+            }
+
+            releaseBtn.disabled = true;
+            reflectionInput.disabled = true;
+
+            // Start balloon animation
+            console.log('Adding animation classes');
+            balloon.classList.add('balloon-releasing');
+            balloonString.classList.add('string-releasing');
+
+            // Trigger confetti at the top (when balloon "pops")
+            setTimeout(() => {
+                console.log('Creating confetti');
+                createConfetti();
+                successMessage.classList.add('show');
+            }, 2500);
+        }
+
+        function createConfetti() {
+            const colors = ['#E74C3C', '#F39C12', '#E67E22', '#3498DB', '#9B59B6', '#1ABC9C', '#F1C40F'];
+            const confettiCount = 80;
+
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                const size = Math.random() * 8 + 6;
+                confetti.style.width = size + 'px';
+                confetti.style.height = size + 'px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.animationDelay = Math.random() * 0.3 + 's';
+                confetti.style.animationDuration = (Math.random() * 1.5 + 2) + 's';
+                
+                // Random shapes
+                if (Math.random() > 0.5) {
+                    confetti.style.borderRadius = '50%';
+                }
+
+                confettiContainer.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.classList.add('confetti-falling');
+                }, 10);
+            }
+
+            // Clean up confetti after animation
+            setTimeout(() => {
+                confettiContainer.innerHTML = '';
+            }, 5000);
+        }
+
+        function resetApp() {
+            // Reset all elements
+            balloon.classList.remove('balloon-releasing');
+            balloonString.classList.remove('string-releasing');
+            successMessage.classList.remove('show');
+            reflectionInput.value = '';
+            reflectionInput.disabled = false;
+            releaseBtn.disabled = false;
+            reflectionInput.focus();
+        }
+
+        // Initial focus
+        reflectionInput.focus();
+    </script>
+</body>
+</html>
